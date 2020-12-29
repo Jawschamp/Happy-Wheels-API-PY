@@ -10,6 +10,7 @@ class Translator:
         disc = "uc"
         player_count = "pc"
         level_rating = "rg"
+
     class AuthorTranslator:
         date = "@dp"
         id = "@id"
@@ -37,6 +38,14 @@ class Level:
             json.dump(jsondict, f, indent=2)
         return jsondict
 
+    def level_list(show_full_list, lvl_name):
+        if show_full_list == True:
+            lvls = Level.search_level_by_level_name(name_of_lvl=lvl_name)
+            for i in lvls:
+                print(i)
+            else:
+                pass
+
 class Author:
     def search_author(author_name):
         payload = {
@@ -53,12 +62,12 @@ class Author:
         return jsondict
 
 
-def for_author_list(show_full_list, author_name):
-    if show_full_list == True:
-        LevelParser = Level.search_level_by_level_name(name_of_lvl=author_name)
-        for i in LevelParser["lvs"]["lv"]: # Testing
-            print(i)
-        else:
-            pass
-
-
+    def for_author_list(show_full_list, author_name):
+        if show_full_list == True:
+            AuthorParser = Author.search_author(author_name=author_name)
+            for i in AuthorParser["lvs"]["lv"]: # Testing
+                author = i[Translator.AuthorTranslator.user]
+                date = i[Translator.AuthorTranslator.date]
+                print(author, date)
+            else:
+                pass

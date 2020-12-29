@@ -10,6 +10,13 @@ class Translator:
         disc = "uc"
         player_count = "pc"
         level_rating = "rg"
+    class AuthorTranslator:
+        date = "@dp"
+        id = "@id"
+        disc = "@in"
+        level_rating = "@rg"
+        user = "@un"
+
 
 
 class Level:
@@ -24,10 +31,10 @@ class Level:
             "uploaded": "week",
             "sterm": name_of_lvl
         }
-        request = requests.request("POST", url=Level.search, data=payload).content
+        request = requests.post(url=Level.search, data=payload).content
         jsondict = xmltodict.parse(request)
         with open("Test.json", "w") as f:
-            json.dump(jsondict, f)
+            json.dump(jsondict, f, indent=2)
         return jsondict
 
 class Author:
@@ -41,4 +48,17 @@ class Author:
         }
         request = requests.post(url=Level.search, data=payload).content
         jsondict = xmltodict.parse(request)
+        with open("Author.json", "w") as f:
+            json.dump(jsondict, f, indent=2)
         return jsondict
+
+
+def for_author_list(show_full_list, author_name):
+    if show_full_list == True:
+        LevelParser = Level.search_level_by_level_name(name_of_lvl=author_name)
+        for i in LevelParser["lvs"]["lv"]: # Testing
+            print(i)
+        else:
+            pass
+
+
